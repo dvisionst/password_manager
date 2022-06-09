@@ -42,6 +42,11 @@ def save():
                 pass_entry.delete(0, END)
             web_entry.focus()
 
+
+def pass_finder():
+    pass
+
+
 # ---------------------------- UI SETUP ------------------------------- #
 
 window = Tk()
@@ -72,8 +77,8 @@ add_button.grid(column=1, row=4, columnspan=2)
 pass_button = Button(text="Generate Password", command=pass_gen)
 pass_button.grid(column=2, row=3)
 
-web_entry = Entry(width=51)
-web_entry.grid(column=1, row=1, columnspan=2)
+web_entry = Entry(width=32)
+web_entry.grid(column=1, row=1)
 web_entry.focus()
 
 email_entry = Entry(width=51)
@@ -82,5 +87,9 @@ email_entry.insert(0, "dvision_st@yahoo.com")
 
 pass_entry = Entry(width=32)
 pass_entry.grid(column=1, row=3)
+
+search_button = Button(width=9, text="Search", command=pass_finder)
+search_button.grid(column=2, row=1)
+search_button.config(padx=20)
 
 window.mainloop()
