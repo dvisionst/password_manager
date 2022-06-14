@@ -58,7 +58,9 @@ def save():
             web_entry.delete(0, END)
             pass_entry.delete(0, END)
             web_entry.focus()
-
+            
+            
+# ---------------------------- FIND PASSWORD ------------------------------- #
 
 def find_password():
     website = web_entry.get()
