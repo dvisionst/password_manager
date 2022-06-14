@@ -67,6 +67,7 @@ def find_password():
             data = json.load(data_file)
             email = data[website]["email"]
             password = data[website]["password"]
+            pyperclip.copy(password)
             line_out = f" Email: {email}\n Password: {password}"
             messagebox.showinfo(title=website, message=line_out)
             
