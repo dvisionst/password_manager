@@ -5,6 +5,8 @@ from random import choice, randint, shuffle
 import json
 
 
+
+
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 # Password Generator Project
 def pass_gen():
@@ -40,22 +42,43 @@ def save():
     if len(website) == 0 or len(password) == 0:
         messagebox.showinfo(title="Oops!", message="Please don't leave any fields empty!")
     else:
-        with open("passwords.json", "r") as data_file:
-            # reading the old data
-            data = json.load(data_file)
-            # updating the old data with the new data
-            data.update(new_data)
 
-        with open("passwords.json", "w") as data_file:
-            json.dump(data, data_file, indent=4)
+        try:
+            with open("passwords.json", "r") as data_file:
+                # reading the old data
+                data = json.load(data_file)
+        except FileNotFoundError:
+            with open("passwords.json", "w") as data_file:
+                json.dump(new_data, data_file, indent=4)
+        else:
+            data.update(new_data)
+            with open("passwords.json", "w") as data_file:
+                json.dump(data, data_file, indent=4)
+        finally:
             web_entry.delete(0, END)
             pass_entry.delete(0, END)
+            web_entry.focus()
+
+
+def find_password():
+    website = web_entry.get()
+    try:
+        with open("passwords.json", "r") as data_file:
+            data = json.load(data_file)
+            email = data[website]["email"]
+            password = data[website]["password"]
+            line_out = f" Email: {email}\n Password: {password}"
+            messagebox.showinfo(title=website, message=line_out)
+            
+    except KeyError:
+        messagebox.showinfo(title="Error", message="No Data File Found.")
+    finally:
+        web_entry.delete(0, END)
+        pass_entry.delete(0, END)
         web_entry.focus()
 
 
 
-def pass_finder():
-    pass
 
 
 # ---------------------------- UI SETUP ------------------------------- #
@@ -99,7 +122,7 @@ email_entry.insert(0, "dvision_st@yahoo.com")
 pass_entry = Entry(width=32)
 pass_entry.grid(column=1, row=3)
 
-search_button = Button(width=9, text="Search", command=pass_finder)
+search_button = Button(width=9, text="Search", command=find_password)
 search_button.grid(column=2, row=1)
 search_button.config(padx=20)
 
